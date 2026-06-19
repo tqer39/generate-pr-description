@@ -5,7 +5,7 @@ description = "Generate PR title and description using OpenRouter API"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-  "openai==2.38.0",
+  "openai==2.41.0",
 ]
 
 [build-system]
@@ -14,7 +14,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.uv]
 dev-dependencies = [
-    "openai==2.38.0",
+    "openai==2.41.0",
     "pytest>=8.0",
 ]
 
