@@ -14,9 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
-      contents: write # git push するために必要
+      contents: read # Git operations use the App token
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
 
       - name: Generate GitHub App Token
         id: app_token
@@ -24,10 +26,13 @@ jobs:
         with:
           app-id: ${{ secrets.MAINTENANCE_APP_ID }}
           private-key: ${{ secrets.MAINTENANCE_APP_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}
-          repositories: ${{ github.event.repository.name }}
           permission-contents: write
           permission-pull-requests: write
+
+      - name: Configure authenticated Git
+        env:
+          GH_TOKEN: ${{ steps.app_token.outputs.token }}
+        run: gh auth setup-git
 
       - uses: tqer39/update-license-year@ecb1743b65a4f7e6d2a7cbc7b96663a58db24304 # v1.0.0
         with:
